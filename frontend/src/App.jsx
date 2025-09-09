@@ -66,6 +66,8 @@
          {/* <Route path="admin-dashboard/ordine/:id/datasets" element={<DataSetPage />} /> */}
          <Route path="/admin-dashboard/ordini/:id/add-dataset" element={<AddDataSet />} />
          <Route path="admin-dashboard/ordini/:id/edit-dataset/:index" element={<EditDataSet />} />
+         <Route path="/admin-dashboard/utenti" element={<UserTable />} />
+         
  
        </Routes>
      </Fragment>

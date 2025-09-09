@@ -136,8 +136,9 @@
 
 
 
-
+import mongoose from "mongoose";
 import Ordine from "../models/Ordine.js";
+import User from "../models/User.js";
 
 // 📌 Créer un Ordine simple (sans dataset)
 export const createOrdine = async (req, res) => {
@@ -277,24 +278,61 @@ export const updateOrdine = async (req, res) => {
 
 
 
+// export const deleteOrdine = async (req, res) => {
+//   try {
+//     const ordineId = req.params.id;
+
+//     // 1️⃣ Supprimer l'Ordine
+//     const deletedOrdine = await Ordine.findByIdAndDelete(ordineId);
+//     if (!deletedOrdine)
+//       return res.status(404).json({ success: false, message: "Ordine non trouvé" });
+
+//     // 2️⃣ Supprimer les références de l'Ordine dans assignedOrdini des utilisateurs
+//     await User.updateMany(
+//       { assignedOrdini: mongoose.Types.ObjectId(ordineId) }, // convertir en ObjectId
+//       { $pull: { assignedOrdini: mongoose.Types.ObjectId(ordineId) } }
+//     );
+
+//     res.json({ success: true, message: "Ordine et ses assignations supprimés avec succès" });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ success: false, error: err.message });
+//   }
+// };
+
+
+
+
+
+
+
+
+
 export const deleteOrdine = async (req, res) => {
   try {
     const ordineId = req.params.id;
 
-    // 1️⃣ Supprimer l'Ordine
-    const deletedOrdine = await Ordine.findByIdAndDelete(ordineId);
-    if (!deletedOrdine)
-      return res.status(404).json({ success: false, message: "Ordine non trouvé" });
+    // Vérifier si l'ID est valide
+    if (!mongoose.Types.ObjectId.isValid(ordineId)) {
+      return res.status(400).json({ success: false, message: "ID non valide" });
+    }
 
-    // 2️⃣ Supprimer les références de l'Ordine dans assignedOrdini des utilisateurs
+    // 1️⃣ Supprimer l'ordre
+    const deletedOrdine = await Ordine.findByIdAndDelete(ordineId);
+    if (!deletedOrdine) {
+      return res.status(404).json({ success: false, message: "Ordine non trouvé" });
+    }
+
+    // 2️⃣ Supprimer les références si elles existent
     await User.updateMany(
-      { assignedOrdini: mongoose.Types.ObjectId(ordineId) }, // convertir en ObjectId
-      { $pull: { assignedOrdini: mongoose.Types.ObjectId(ordineId) } }
+      { assignedOrdini: { $in: [ordineId] } }, // seulement si l'ID est présent
+      { $pull: { assignedOrdini: ordineId } }
     );
 
-    res.json({ success: true, message: "Ordine et ses assignations supprimés avec succès" });
+    // Réponse réussie
+    res.status(200).json({ success: true, message: "Ordine et ses assignations supprimés avec succès" });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ success: false, error: err.message });
+    console.error("Erreur backend deleteOrdine:", err);
+    res.status(500).json({ success: false, message: "Erreur serveur lors de la suppression de l'ordre" });
   }
 };
