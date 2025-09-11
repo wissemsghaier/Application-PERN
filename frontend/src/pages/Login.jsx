@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/authContext";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Mail, Lock } from "lucide-react";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -39,11 +41,20 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-blue-50 via-green-50 to-yellow-50 px-4">
-      <div className="w-full max-w-md bg-white/70 backdrop-blur-xl shadow-2xl rounded-3xl p-10 border border-white/20">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-slate-900 via-gray-900 to-black px-4 relative overflow-hidden">
+      {/* Halo décoratif */}
+      <div className="absolute top-20 left-20 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+      <div className="absolute bottom-20 right-20 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
+        className="w-full max-w-md bg-white/10 backdrop-blur-xl shadow-2xl rounded-3xl p-10 border border-white/20 relative z-10"
+      >
         {/* Titre */}
-        <h2 className="text-3xl font-extrabold text-gray-800 mb-6 text-center bg-clip-text text-transparent bg-gradient-to-r from-green-400 via-blue-400 to-purple-400">
-          🔑 Accedi
+        <h2 className="text-4xl font-extrabold text-center mb-8 bg-gradient-to-r from-emerald-400 via-blue-400 to-purple-500 bg-clip-text text-transparent">
+          🔐 Connessione
         </h2>
 
         {/* Message d'erreur */}
@@ -52,33 +63,25 @@ const Login = () => {
         )}
 
         {/* Formulaire */}
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Email
-            </label>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Email */}
+          <div className="relative">
+            <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
             <input
               type="email"
-              className="w-full border border-gray-300 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-300 transition duration-300 shadow-sm"
+              className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/20 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-400 shadow-sm transition"
               placeholder="nome@example.com"
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
 
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Password
-            </label>
+          {/* Password */}
+          <div className="relative">
+            <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
             <input
               type="password"
-              className="w-full border border-gray-300 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-300 transition duration-300 shadow-sm"
+              className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/20 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-400 shadow-sm transition"
               placeholder="********"
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -86,40 +89,29 @@ const Login = () => {
           </div>
 
           {/* Options */}
-          <div className="flex items-center justify-between text-sm text-gray-600">
+          <div className="flex items-center justify-between text-sm text-gray-400">
             <label className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                className="accent-green-300"
-              />
+              <input type="checkbox" className="accent-emerald-400" />
               Ricordami
             </label>
-            <a href="#" className="text-green-400 hover:underline">
+            <a href="#" className="text-emerald-400 hover:underline">
               Password dimenticata?
             </a>
           </div>
 
           {/* Bouton */}
-          <button
+          <motion.button
+            whileHover={{ scale: 1.05, boxShadow: "0px 0px 20px #34d399" }}
+            whileTap={{ scale: 0.95 }}
             type="submit"
-            className="w-full bg-gradient-to-r from-green-400 via-blue-400 to-purple-400 text-white font-semibold py-3 rounded-2xl shadow-lg hover:opacity-90 transition duration-300"
+            className="w-full bg-gradient-to-r from-emerald-400 via-blue-400 to-purple-500 text-white font-semibold py-3 rounded-2xl shadow-lg transition duration-300"
           >
             Accedi
-          </button>
+          </motion.button>
         </form>
-
-        {/* Link inscription */}
-        {/* <p className="text-center text-sm mt-6 text-gray-700">
-          Non hai un account?{" "}
-          <a href="/register" className="text-green-400 hover:underline font-medium">
-            Registrati
-          </a>
-        </p> */}
-      </div>
+      </motion.div>
     </div>
   );
 };
 
 export default Login;
-
-

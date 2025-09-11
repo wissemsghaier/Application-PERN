@@ -10,18 +10,17 @@ import EditDataSet from "../components/DataSets/EditDataSet";
 import Navbar from "../components/Dashboard/Navbar";
 import SideBar from "../components/Dashboard/SideBarAdmin";
 
-
 const backendURL = "http://localhost:3000/api/ordini";
 
 const DataSetPage = () => {
   const { id } = useParams();
-  const ordineId = id;
   const [ordine, setOrdine] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [editingDataSet, setEditingDataSet] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const token = localStorage.getItem("token");
 
+  // Fonction pour récupérer l'ordre
   const fetchOrdine = async () => {
     try {
       const res = await axios.get(`${backendURL}/${id}`, {
@@ -29,24 +28,25 @@ const DataSetPage = () => {
       });
       setOrdine(res.data.data || res.data);
     } catch (err) {
-      console.error(err);
+      console.error("Erreur fetchOrdine:", err);
     }
   };
 
+  // Éditer un dataset
   const handleEdit = (ds, index) => {
     setEditingDataSet({ ...ds, id: index });
     setShowForm(true);
   };
 
+  // Supprimer un dataset
   const handleDelete = async (datasetIndex) => {
     if (!window.confirm("Voulez-vous vraiment supprimer ce DataSet ?")) return;
 
     try {
       const res = await axios.delete(
-        `http://localhost:3000/api/ordini/${ordineId}/deleteDataSet/${datasetIndex}`,
+        `${backendURL}/${id}/deleteDataSet/${datasetIndex}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-
       alert(res.data.message || "DataSet supprimé !");
       fetchOrdine(); // rafraîchir la liste après suppression
     } catch (err) {
@@ -55,83 +55,88 @@ const DataSetPage = () => {
     }
   };
 
+  // Filtrer les datasets selon la recherche
   const filteredDataSets = ordine?.dataSets?.filter(
     (ds) =>
-      ds.anagrafica.AN_NOME.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      ds.anagrafica.ANCOGNOM.toLowerCase().includes(searchTerm.toLowerCase())
+      ds.anagrafica?.AN_NOME?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      ds.anagrafica?.ANCOGNOM?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   useEffect(() => {
     fetchOrdine();
-  }, []);
+  }, [id]);
 
   if (!ordine)
     return <div className="ml-64 p-8 text-gray-600">Caricamento...</div>;
 
   return (
-    <div className="relative min-h-screen bg-green-50">
-      {/* Navbar */}
-      <Navbar />
-
+    <div className="flex bg-green-50 min-h-screen">
       {/* Sidebar */}
       <SideBar />
 
-      {/* Main Content */}
-      <div className="ml-64 pt-20 px-8">
-        <h2 className="text-4xl font-bold mb-6 text-green-700">Ordine: {ordine.numero}</h2>
+      {/* Main content */}
+      <div className="flex-1 ml-64">
+        {/* Navbar */}
+        <Navbar />
 
-        {/* Recherche + Ajouter */}
-        <div className="flex justify-between items-center max-w-5xl mx-auto mb-6">
-          <div className="flex items-center gap-2">
-            <FiSearch className="text-green-700" />
-            <input
-              type="text"
-              placeholder="Cerca DataSet..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="border border-gray-300 px-3 py-2 rounded-lg focus:ring-2 focus:ring-green-300 outline-none"
-            />
+        <div className="p-8 pt-24">
+          <h2 className="text-4xl font-bold mb-6 text-green-700">
+            Ordine: {ordine.numero}
+          </h2>
+
+          {/* Barre de recherche + bouton ajouter */}
+          <div className="flex justify-between items-center max-w-5xl mx-auto mb-6">
+            <div className="flex items-center gap-2">
+              <FiSearch className="text-green-700" />
+              <input
+                type="text"
+                placeholder="Cerca DataSet..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="border border-gray-300 px-3 py-2 rounded-lg focus:ring-2 focus:ring-green-300 outline-none"
+              />
+            </div>
+            <button
+              onClick={() => {
+                setShowForm(!showForm);
+                setEditingDataSet(null);
+              }}
+              className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-xl shadow transition"
+            >
+              <FiPlus /> {showForm ? "Chiudi Form" : "Aggiungi DataSet"}
+            </button>
           </div>
-          <button
-            onClick={() => {
-              setShowForm(!showForm);
-              setEditingDataSet(null);
-            }}
-            className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-xl shadow transition"
-          >
-            <FiPlus /> {showForm ? "Chiudi Form" : "Aggiungi DataSet"}
-          </button>
+
+          {/* Formulaire ajout / édition */}
+          {showForm && (
+            editingDataSet ? (
+              <EditDataSet
+                ordineId={id}
+                datasetIndex={editingDataSet.id}
+                existingDataSet={editingDataSet}
+                fetchOrdine={fetchOrdine}
+                closeForm={() => setShowForm(false)}
+              />
+            ) : (
+              <DataSetForm
+                ordineId={id}
+                fetchOrdine={fetchOrdine}
+                closeForm={() => setShowForm(false)}
+              />
+            )
+          )}
+
+          {/* Table des datasets */}
+          {!showForm && (
+            <div className="max-w-5xl mx-auto mt-8">
+              <DataSetTable
+                dataSets={filteredDataSets}
+                handleEdit={handleEdit}
+                handleDelete={handleDelete}
+              />
+            </div>
+          )}
         </div>
-
-        {/* Formulaire d'ajout ou d'édition */}
-        {showForm && (
-          editingDataSet ? (
-            <EditDataSet
-              ordineId={id}
-              datasetIndex={editingDataSet.id}
-              existingDataSet={editingDataSet}
-              fetchOrdine={fetchOrdine}
-              closeForm={() => setShowForm(false)}
-            />
-          ) : (
-            <DataSetForm
-              ordineId={id}
-              fetchOrdine={fetchOrdine}
-              closeForm={() => setShowForm(false)}
-            />
-          )
-        )}
-
-        {/* Table des datasets */}
-        {!showForm && (
-          <div className="max-w-5xl mx-auto mt-8">
-            <DataSetTable
-              dataSets={filteredDataSets}
-              handleEdit={handleEdit}
-              handleDelete={handleDelete}
-            />
-          </div>
-        )}
       </div>
     </div>
   );

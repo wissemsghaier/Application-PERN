@@ -35,7 +35,8 @@ import {
   deleteOrdine,
   addDataSetToOrdine,
   updateDataSet,
-  deleteDataSet
+  deleteDataSet,
+  stampaOrdine   // ✅ import   // ✅ import
 } from "../controllers/ordineController.js";
 
 import { verifyUser, adminOnly } from "../middleware/authMiddlware.js";
@@ -53,6 +54,7 @@ router.delete("/:id", verifyUser, adminOnly, deleteOrdine);
 router.post("/:id/addDataSet", verifyUser, adminOnly, addDataSetToOrdine);
 router.put("/:ordineId/updateDataSet/:datasetIndex", verifyUser, adminOnly, updateDataSet);
 router.delete("/:ordineId/deleteDataSet/:datasetIndex", verifyUser, adminOnly, deleteDataSet);
+router.get("/:id/stampa", verifyUser, adminOnly, stampaOrdine);
 
 export default router;
 

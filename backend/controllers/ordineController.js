@@ -139,6 +139,8 @@
 import mongoose from "mongoose";
 import Ordine from "../models/Ordine.js";
 import User from "../models/User.js";
+import PDFDocument from "pdfkit";
+import fs from "fs";
 
 // 📌 Créer un Ordine simple (sans dataset)
 export const createOrdine = async (req, res) => {
@@ -336,3 +338,57 @@ export const deleteOrdine = async (req, res) => {
     res.status(500).json({ success: false, message: "Erreur serveur lors de la suppression de l'ordre" });
   }
 };
+
+
+
+
+
+
+
+
+
+export const stampaOrdine = async (req, res) => {
+  try {
+    const ordineId = req.params.id;
+
+    // Vérifie l’ID
+    if (!ordineId.match(/^[0-9a-fA-F]{24}$/)) {
+      return res.status(400).json({ success: false, message: "ID non valide" });
+    }
+
+    // Récupère l'ordre et populate assignedTo
+    const ordine = await Ordine.findById(ordineId).populate("assignedTo", "name email");
+
+    if (!ordine) {
+      return res.status(404).json({ success: false, message: "Ordine non trovato" });
+    }
+
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Content-Disposition", `attachment; filename=ordine_${ordine.numero}.pdf`);
+
+    const doc = new PDFDocument({ margin: 50, size: "A4" });
+    doc.pipe(res);
+
+    doc.fontSize(20).text(`Ordine #${ordine.numero}`, { align: "center" });
+    doc.moveDown();
+    doc.fontSize(12).text(`Data di creazione: ${ordine.createdAt.toLocaleString()}`);
+    doc.moveDown();
+
+    if (!ordine.assignedTo || ordine.assignedTo.length === 0) {
+      doc.text("Nessun utente assegnato.");
+    } else {
+      ordine.assignedTo.forEach((utente, i) => {
+        doc.text(`${i + 1}. ${utente.name} (${utente.email})`);
+      });
+    }
+
+    doc.end();
+  } catch (err) {
+    console.error("Errore PDF:", err);
+    res.status(500).json({ success: false, message: "Errore nella generazione del PDF" });
+  }
+};
+
+
+
+

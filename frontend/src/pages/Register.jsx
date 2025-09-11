@@ -5,6 +5,7 @@ import axios from "axios";
 import SideBar from "../components/Dashboard/SideBarAdmin";
 import Navbar from "../components/Dashboard/Navbar";
 import { motion } from "framer-motion";
+import { User, Mail, Lock } from "lucide-react";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -44,20 +45,24 @@ const Register = () => {
       <SideBar />
 
       {/* Contenu principal */}
-      <div className="flex-1 min-h-screen bg-gradient-to-br from-cyan-50 via-green-50 to-teal-100 pt-20 px-4">
+      <div className="flex-1 min-h-screen bg-gradient-to-br from-cyan-50 via-green-50 to-teal-100 pt-20 px-6 relative overflow-hidden">
         {/* Navbar */}
         <Navbar />
 
+        {/* Halo décoratif */}
+        <div className="absolute top-24 left-24 w-72 h-72 bg-cyan-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+        <div className="absolute bottom-24 right-24 w-72 h-72 bg-lime-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+
         {/* Formulaire centré */}
-        <div className="flex justify-center items-center py-20">
+        <div className="flex justify-center items-center py-16">
           <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 40 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className="w-full max-w-md bg-white/30 backdrop-blur-xl shadow-2xl 
-                       rounded-3xl p-10 border border-white/40 relative overflow-hidden"
+            className="w-full max-w-lg bg-white/50 backdrop-blur-xl shadow-2xl 
+                       rounded-3xl p-10 border border-white/30 relative overflow-hidden"
           >
-            {/* Effet neon animé */}
+            {/* Effet néon animé */}
             <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-cyan-400 via-emerald-400 to-lime-400 opacity-20 blur-2xl animate-pulse"></div>
 
             {/* Titre */}
@@ -79,31 +84,29 @@ const Register = () => {
             {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
               {/* Nome */}
-              <motion.div whileFocus={{ scale: 1.02 }}>
-                <label className="block text-gray-700 text-sm mb-1">
-                  Nome completo
-                </label>
+              <div className="relative">
+                <User className="absolute left-4 top-1/2 transform -translate-y-1/2 text-cyan-500" />
                 <input
                   type="text"
                   name="name"
                   placeholder="Mario Rossi"
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl 
-                             focus:outline-none focus:ring-2 focus:ring-cyan-400 
+                  className="w-full pl-12 pr-4 py-3 bg-white/60 border border-gray-200 
+                             rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-400 
                              shadow-sm transition"
                   onChange={handleChange}
                   required
                 />
-              </motion.div>
+              </div>
 
               {/* Email */}
-              <div>
-                <label className="block text-gray-700 text-sm mb-1">Email</label>
+              <div className="relative">
+                <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-cyan-500" />
                 <input
                   type="email"
                   name="email"
                   placeholder="mario@example.com"
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl 
-                             focus:outline-none focus:ring-2 focus:ring-cyan-400 
+                  className="w-full pl-12 pr-4 py-3 bg-white/60 border border-gray-200 
+                             rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-400 
                              shadow-sm transition"
                   onChange={handleChange}
                   required
@@ -111,14 +114,14 @@ const Register = () => {
               </div>
 
               {/* Password */}
-              <div>
-                <label className="block text-gray-700 text-sm mb-1">Password</label>
+              <div className="relative">
+                <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 text-cyan-500" />
                 <input
                   type="password"
                   name="password"
                   placeholder="Almeno 6 caratteri"
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl 
-                             focus:outline-none focus:ring-2 focus:ring-cyan-400 
+                  className="w-full pl-12 pr-4 py-3 bg-white/60 border border-gray-200 
+                             rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-400 
                              shadow-sm transition"
                   onChange={handleChange}
                   required
@@ -128,7 +131,7 @@ const Register = () => {
               {/* Ruolo nascosto */}
               <input type="hidden" name="role" value="employee" />
 
-              {/* Bottone */}
+              {/* Bouton */}
               <motion.button
                 type="submit"
                 whileHover={{ scale: 1.05 }}
