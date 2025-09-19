@@ -48,7 +48,7 @@ const OrdiniPage = () => {
   };
 
   const filteredOrdini = ordini.filter((o) =>
-    o.numero.toLowerCase().includes(search.toLowerCase())
+    (o.numero || "").toLowerCase().includes(search.toLowerCase())
   );
 
   return (

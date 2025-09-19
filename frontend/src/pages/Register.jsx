@@ -1,6 +1,6 @@
 // src/pages/Register.jsx
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import SideBar from "../components/Dashboard/SideBarAdmin";
 import Navbar from "../components/Dashboard/Navbar";
@@ -15,7 +15,6 @@ const Register = () => {
     password: "",
     role: "employee",
   });
-
   const [error, setError] = useState("");
 
   const handleChange = (e) => {
@@ -41,19 +40,15 @@ const Register = () => {
 
   return (
     <div className="flex">
-      {/* Sidebar */}
       <SideBar />
 
-      {/* Contenu principal */}
       <div className="flex-1 min-h-screen bg-gradient-to-br from-cyan-50 via-green-50 to-teal-100 pt-20 px-6 relative overflow-hidden">
-        {/* Navbar */}
         <Navbar />
 
         {/* Halo décoratif */}
         <div className="absolute top-24 left-24 w-72 h-72 bg-cyan-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
         <div className="absolute bottom-24 right-24 w-72 h-72 bg-lime-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
 
-        {/* Formulaire centré */}
         <div className="flex justify-center items-center py-16">
           <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 40 }}
@@ -62,15 +57,12 @@ const Register = () => {
             className="w-full max-w-lg bg-white/50 backdrop-blur-xl shadow-2xl 
                        rounded-3xl p-10 border border-white/30 relative overflow-hidden"
           >
-            {/* Effet néon animé */}
             <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-cyan-400 via-emerald-400 to-lime-400 opacity-20 blur-2xl animate-pulse"></div>
 
-            {/* Titre */}
             <h2 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 via-emerald-500 to-lime-500 mb-8 text-center drop-shadow-sm">
               📝 Registrazione
             </h2>
 
-            {/* Message erreur */}
             {error && (
               <motion.div
                 initial={{ opacity: 0 }}
@@ -81,9 +73,7 @@ const Register = () => {
               </motion.div>
             )}
 
-            {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
-              {/* Nome */}
               <div className="relative">
                 <User className="absolute left-4 top-1/2 transform -translate-y-1/2 text-cyan-500" />
                 <input
@@ -98,7 +88,6 @@ const Register = () => {
                 />
               </div>
 
-              {/* Email */}
               <div className="relative">
                 <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-cyan-500" />
                 <input
@@ -113,7 +102,6 @@ const Register = () => {
                 />
               </div>
 
-              {/* Password */}
               <div className="relative">
                 <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 text-cyan-500" />
                 <input
@@ -128,10 +116,8 @@ const Register = () => {
                 />
               </div>
 
-              {/* Ruolo nascosto */}
               <input type="hidden" name="role" value="employee" />
 
-              {/* Bouton */}
               <motion.button
                 type="submit"
                 whileHover={{ scale: 1.05 }}
@@ -145,15 +131,14 @@ const Register = () => {
               </motion.button>
             </form>
 
-            {/* Lien login */}
             <p className="text-center text-sm mt-6 text-gray-700 relative z-10">
               Hai già un account?{" "}
-              <a
-                href="/login"
+              <Link
+                to="/login"
                 className="text-cyan-500 hover:underline font-medium"
               >
                 Accedi
-              </a>
+              </Link>
             </p>
           </motion.div>
         </div>

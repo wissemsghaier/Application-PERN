@@ -42,7 +42,7 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-slate-900 via-gray-900 to-black px-4 relative overflow-hidden">
-      {/* Halo décoratif */}
+      {/* Décoratif */}
       <div className="absolute top-20 left-20 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
       <div className="absolute bottom-20 right-20 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
 
@@ -52,17 +52,14 @@ const Login = () => {
         transition={{ duration: 0.7, ease: "easeOut" }}
         className="w-full max-w-md bg-white/10 backdrop-blur-xl shadow-2xl rounded-3xl p-10 border border-white/20 relative z-10"
       >
-        {/* Titre */}
         <h2 className="text-4xl font-extrabold text-center mb-8 bg-gradient-to-r from-emerald-400 via-blue-400 to-purple-500 bg-clip-text text-transparent">
           🔐 Connessione
         </h2>
 
-        {/* Message d'erreur */}
         {error && (
           <p className="text-red-500 text-sm mb-4 text-center">{error}</p>
         )}
 
-        {/* Formulaire */}
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Email */}
           <div className="relative">

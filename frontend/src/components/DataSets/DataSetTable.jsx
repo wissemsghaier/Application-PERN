@@ -31,9 +31,9 @@ const DataSetTable = ({ dataSets, handleEdit, handleDelete }) => {
         <tbody>
           <AnimatePresence>
             {dataSets?.length > 0 ? (
-              dataSets.map((ds, idx) => (
+              dataSets.map((ds) => (
                 <motion.tr
-                  key={idx}
+                  key={ds.id} // ✅ PostgreSQL / Sequelize
                   className="border-b hover:bg-green-50 transition-colors"
                   initial={{ opacity: 0, x: -30 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -42,17 +42,17 @@ const DataSetTable = ({ dataSets, handleEdit, handleDelete }) => {
                   whileHover={{ scale: 1.01 }}
                 >
                   <td className="py-4 px-6 text-gray-800 font-medium">
-                    {ds.anagrafica.AN_NOME}
+                    {ds.anagrafica?.AN_NOME || "-"}
                   </td>
                   <td className="py-4 px-6 text-gray-800 font-medium">
-                    {ds.anagrafica.ANCOGNOM}
+                    {ds.anagrafica?.ANCOGNOM || "-"}
                   </td>
                   <td className="py-4 px-6 text-gray-600">
                     {ds.recapiti?.[0]?.ANTELEFO || "-"}
                   </td>
                   <td className="py-4 px-6 flex justify-center gap-3">
                     <motion.button
-                      onClick={() => handleEdit(ds, idx)}
+                      onClick={() => handleEdit(ds.id)}
                       className="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded-full shadow-md flex items-center justify-center"
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
@@ -61,7 +61,7 @@ const DataSetTable = ({ dataSets, handleEdit, handleDelete }) => {
                       <FiEdit size={16} />
                     </motion.button>
                     <motion.button
-                      onClick={() => handleDelete(idx)}
+                      onClick={() => handleDelete(ds.id)}
                       className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-full shadow-md flex items-center justify-center"
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}

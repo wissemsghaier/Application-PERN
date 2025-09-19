@@ -1,30 +1,3 @@
-// import express from "express";
-// import {
-//   createOrdine,
-//   getAllOrdini,
-//   getOrdineById,
-//   updateOrdine,
-//   deleteOrdine,
-//   addDataSetToOrdine,
-// } from "../controllers/ordineController.js";
-
-// import { verifyUser, adminOnly } from "../middleware/authMiddlware.js";
-
-// const router = express.Router();
-
-// // 🔹 CRUD Ordine
-// router.post("/", verifyUser, adminOnly, createOrdine);       // Créer un Ordine
-// router.get("/", verifyUser, adminOnly, getAllOrdini);       // Lister tous les Ordini
-// router.post("/addDataSet", verifyUser, adminOnly, addDataSetToOrdine);
-// router.get("/:id", verifyUser, adminOnly, getOrdineById);   // Récupérer un Ordine par ID
-// router.put("/:id", verifyUser, adminOnly, updateOrdine);    // Mettre à jour
-// router.delete("/:id", verifyUser, adminOnly, deleteOrdine); // Supprimer
-
-// export default router;
-
-
-
-
 
 import express from "express";
 import {
@@ -33,11 +6,21 @@ import {
   getOrdineById,
   updateOrdine,
   deleteOrdine,
-  addDataSetToOrdine,
-  updateDataSet,
-  deleteDataSet,
+  getOrdineAnagrafica,
   stampaOrdine   // ✅ import   // ✅ import
 } from "../controllers/ordineController.js";
+
+
+
+// Sous-tables
+import anagraficaRoutes from "./anagraficaRoutes.js";
+import abilitazioniRoutes from "./abilitazioniRoutes.js";
+import alboRoutes from "./alboRoutes.js";
+import recapitiRoutes from "./recapitiRoutes.js";
+import contattiRoutes from "./contattiRoutes.js";
+import studiAssociatiRoutes from "./studiAssociatiRoutes.js";
+import attivitaProfessionaleRoutes from "./attivitaProfessionaleRoutes.js";
+import titoliRoutes from "./titoliRoutes.js";
 
 import { verifyUser, adminOnly } from "../middleware/authMiddlware.js";
 
@@ -50,32 +33,35 @@ router.get("/:id", verifyUser, adminOnly, getOrdineById);
 router.put("/:id", verifyUser, adminOnly, updateOrdine);
 router.delete("/:id", verifyUser, adminOnly, deleteOrdine);
 
-// DataSet CRUD pour un Ordine spécifique
-router.post("/:id/addDataSet", verifyUser, adminOnly, addDataSetToOrdine);
-router.put("/:ordineId/updateDataSet/:datasetIndex", verifyUser, adminOnly, updateDataSet);
-router.delete("/:ordineId/deleteDataSet/:datasetIndex", verifyUser, adminOnly, deleteDataSet);
+
+
+
+
+router.get("/:id/anagrafica/list", verifyUser, adminOnly, getOrdineAnagrafica);
 router.get("/:id/stampa", verifyUser, adminOnly, stampaOrdine);
 
+
+
+
+
+
+
+// ------------------------------
+// 🔹 Sous-tables imbriquées
+// ------------------------------
+// Exemple : /api/ordini/:ordineId/anagrafica
+router.use("/:ordineId/anagrafica", anagraficaRoutes);
+router.use("/:ordineId/anagrafica/:anagraficaId/abilitazioni", abilitazioniRoutes);
+router.use("/:ordineId/anagrafica/:anagraficaId/albo", alboRoutes);
+router.use("/:ordineId/anagrafica/:anagraficaId/recapiti", recapitiRoutes);
+router.use("/:ordineId/anagrafica/:anagraficaId/contatti", contattiRoutes);
+router.use("/:ordineId/anagrafica/:anagraficaId/studi-associati", studiAssociatiRoutes);
+router.use("/:ordineId/anagrafica/:anagraficaId/attivita-professionale", attivitaProfessionaleRoutes);
+router.use("/:ordineId/anagrafica/:anagraficaId/titoli", titoliRoutes);
+
+
+
+
+
 export default router;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

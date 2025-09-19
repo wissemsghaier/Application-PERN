@@ -25,19 +25,11 @@ const OrdineForm = ({ existingOrdine }) => {
     }
 
     try {
-      if (existingOrdine?._id) {
-        await axios.put(
-          `${backendURL}/${existingOrdine._id}`,
-          { numero },
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-      } else {
-        await axios.post(
-          backendURL,
-          { numero },
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-      }
+        if (existingOrdine?.id) {
+          await axios.put(`${backendURL}/${existingOrdine.id}`, { numero }, { headers: { Authorization: `Bearer ${token}` } });
+        } else {
+            await axios.post(backendURL, { numero }, { headers: { Authorization: `Bearer ${token}` } });
+          }
       navigate("/admin-dashboard/ordini");
     } catch (err) {
       if (err.response?.status === 404) {
