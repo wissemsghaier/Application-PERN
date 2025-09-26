@@ -16,9 +16,9 @@ const router = express.Router({ mergeParams: true }); // 🔹 important pour ré
 // ------------------------------
 // 🔹 AttivitaProfessionale
 // ------------------------------
-router.post("/", verifyUser, adminOnly, createAttivita);
-router.get("/", verifyUser, adminOnly, getAttivitaByAnagrafica);
-router.put("/:id", verifyUser, adminOnly, updateAttivita);
+router.post("/", verifyUser,  createAttivita);
+router.get("/", verifyUser,  getAttivitaByAnagrafica);
+router.put("/:id", verifyUser,  updateAttivita);
 router.delete("/:id", verifyUser, adminOnly, deleteAttivita);
 
 

@@ -14,9 +14,9 @@ const router = express.Router({ mergeParams: true }); // 🔹 important pour ré
 
 
 
-router.post("/", verifyUser, adminOnly,  createStudioAssociato);
-router.get("/", verifyUser, adminOnly,  getStudiByAnagrafica);
-router.put("/:id", verifyUser, adminOnly,  updateStudio);
+router.post("/", verifyUser,   createStudioAssociato);
+router.get("/", verifyUser,   getStudiByAnagrafica);
+router.put("/:id", verifyUser,   updateStudio);
 router.delete("/:id", verifyUser, adminOnly,  deleteStudio);
 
 export default router;

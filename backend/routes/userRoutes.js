@@ -7,13 +7,14 @@ import {
   assignOrdine,
   removeOrdiniFromUser
 } from "../controllers/userController.js";
-import { verifyUser, adminOnly } from "../middleware/authMiddlware.js";
+import { verifyUser, adminOnly, } from "../middleware/authMiddlware.js";
+
 
 const router = express.Router();
 
 // CRUD utilisateur
 router.get("/", verifyUser, adminOnly, getAllUsers);
-router.put("/:id", verifyUser, adminOnly, updateUser);
+router.put("/:id", verifyUser, adminOnly,  updateUser);
 router.delete("/:id", verifyUser, adminOnly, deleteUser);
 
 // Assigner / retirer ordini

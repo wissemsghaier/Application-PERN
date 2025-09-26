@@ -14,12 +14,12 @@ import { verifyUser, adminOnly } from "../middleware/authMiddlware.js";
 const router = express.Router({ mergeParams: true }); // 🔹 important pour récupérer ordreId et anagraficaId
 
 // CRUD
-router.post("/", verifyUser, adminOnly, createAnagrafica);
-router.get("/", verifyUser, adminOnly, getAnagraficaByOrdine);
-router.get("/:id", verifyUser, adminOnly, getAnagraficaById);
-router.put("/:id", verifyUser, adminOnly, updateAnagrafica);
+router.post("/", verifyUser,  createAnagrafica);
+router.get("/", verifyUser,  getAnagraficaByOrdine);
+router.get("/:id", verifyUser,  getAnagraficaById);
+router.put("/:id", verifyUser,  updateAnagrafica);
 router.delete("/:id", verifyUser, adminOnly, deleteAnagrafica);
-router.get("/:id/view", verifyUser, adminOnly, getAnagraficaWithSubTables);
+router.get("/:id/view", verifyUser, getAnagraficaWithSubTables);
 
 
 export default router;

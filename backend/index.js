@@ -11,6 +11,7 @@ import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/userRoutes.js"
 import ordineRoutes from "./routes/ordineRoutes.js";
 
+import auditRoutes  from './routes/auditRoutes.js'
 
 
 
@@ -31,6 +32,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/ordini", ordineRoutes );
+app.use("/api/audit", auditRoutes);
 
 
 

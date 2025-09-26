@@ -18,9 +18,9 @@ const router = express.Router({ mergeParams: true }); // 🔹 important pour ré
 // ------------------------------
 // 🔹 Contatti
 // ------------------------------
-router.post("/", verifyUser, adminOnly, createContatto);
-router.get("/", verifyUser, adminOnly, getContattiByAnagrafica);
-router.put("/:id", verifyUser, adminOnly, updateContatto);
+router.post("/", verifyUser,  createContatto);
+router.get("/", verifyUser,  getContattiByAnagrafica);
+router.put("/:id", verifyUser,  updateContatto);
 router.delete("/:id", verifyUser, adminOnly, deleteContatto);
 
 

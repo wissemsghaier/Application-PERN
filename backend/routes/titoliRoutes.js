@@ -17,9 +17,9 @@ const router = express.Router({ mergeParams: true }); // 🔹 important pour ré
 // ------------------------------
 // 🔹 Titoli
 // ------------------------------
-router.post("/", verifyUser, adminOnly,  createTitolo);
-router.get("/", verifyUser, adminOnly,  getTitoliByAnagrafica);
-router.put("/:id", verifyUser, adminOnly,  updateTitolo);
+router.post("/", verifyUser,   createTitolo);
+router.get("/", verifyUser,   getTitoliByAnagrafica);
+router.put("/:id", verifyUser,   updateTitolo);
 router.delete("/:id", verifyUser, adminOnly,  deleteTitolo);
 
 

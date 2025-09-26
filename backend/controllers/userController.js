@@ -1,6 +1,6 @@
 import User from "../models/User.js";
 import Ordine from "../models/Ordine.js";
-import sequelize from "../db/db.js";
+
 
 // 🔹 Lister tous les utilisateurs avec leurs ordini assignés
 export const getAllUsers = async (req, res) => {
@@ -20,19 +20,22 @@ export const getAllUsers = async (req, res) => {
   }
 };
 
-// 🔹 Mettre à jour un utilisateur
-export const updateUser = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const [updated] = await User.update(req.body, { where: { id } });
-    if (!updated) return res.status(404).json({ success: false, message: "Utilisateur non trouvé" });
+ //🔹 Mettre à jour un utilisateur
+ export const updateUser = async (req, res) => {
+   try {
+     const { id } = req.params;
+     const [updated] = await User.update(req.body, { where: { id } });
+     if (!updated) return res.status(404).json({ success: false, message: "Utilisateur non trouvé" });
 
-    const updatedUser = await User.findByPk(id);
-    res.json({ success: true, message: "Utilisateur mis à jour", data: updatedUser });
-  } catch (err) {
-    res.status(400).json({ success: false, error: err.message });
-  }
-};
+     const updatedUser = await User.findByPk(id);
+     res.json({ success: true, message: "Utilisateur mis à jour", data: updatedUser });
+   } catch (err) {
+     res.status(400).json({ success: false, error: err.message });
+   }
+ };
+
+
+
 
 // 🔹 Supprimer un utilisateur
 export const deleteUser = async (req, res) => {

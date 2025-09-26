@@ -15,9 +15,9 @@ import { verifyUser, adminOnly } from "../middleware/authMiddlware.js";
 const router = express.Router({ mergeParams: true }); // 🔹 important pour récupérer ordreId et anagraficaId
 
 // CRUD lié à une anagrafica
-router.post("/", verifyUser, adminOnly, createRecapito);
-router.get("/", verifyUser, adminOnly, getRecapitiByAnagrafica);
-router.put("/:id", verifyUser, adminOnly, updateRecapito);
+router.post("/", verifyUser,  createRecapito);
+router.get("/", verifyUser,  getRecapitiByAnagrafica);
+router.put("/:id", verifyUser,  updateRecapito);
 router.delete("/:id", verifyUser, adminOnly, deleteRecapito);
 
 export default router;

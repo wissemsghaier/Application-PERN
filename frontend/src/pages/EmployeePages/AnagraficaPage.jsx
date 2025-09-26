@@ -1,3 +1,4 @@
+
 // src/pages/AnagraficaPage.jsx
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
@@ -12,7 +13,7 @@ import {
   FiFileText,
 } from "react-icons/fi";
 import Navbar from "../../components/Dashboard/Navbar";
-import SideBar from "../../components/Dashboard/SideBarAdmin";
+import SideBar from "../../components/Dashboard/SideBarEmploye";
 import { motion } from "framer-motion";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
@@ -130,7 +131,7 @@ const AnagraficaPage = () => {
           {/* Header */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-white rounded-lg shadow-md p-4 mb-6">
             <Link
-              to="/admin-dashboard/ordini"
+              to="/employee-dashboard/ordini"
               className="flex items-center gap-2 bg-gray-200 hover:bg-gray-300 text-gray-800 px-5 py-2 rounded-lg font-medium shadow-sm transition"
             >
               <FiArrowLeft size={18} /> Torna agli Ordini
@@ -156,7 +157,7 @@ const AnagraficaPage = () => {
               </button>
 
               <Link
-                to={`/admin-dashboard/ordini/${ordineId}/anagrafica/new`}
+                to={`/employee-dashboard/ordini/${ordineId}/anagrafica/new`}
                 className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-5 py-2 rounded-lg font-medium shadow-md transition"
               >
                 <FiPlus size={18} /> Aggiungi
@@ -197,14 +198,14 @@ const AnagraficaPage = () => {
                         <td className="p-3">{a.ancodfis}</td>
                         <td className="p-3 flex justify-center gap-4">
                           <Link
-                            to={`/admin-dashboard/ordini/${ordineId}/anagrafica/${a.id}`}  
+                            to={`/employee-dashboard/ordini/${ordineId}/anagrafica/${a.id}`}  
                             className="text-blue-500 hover:text-blue-600"
                             title="Visualizza"
                           >
                             <FiEye size={18} />
                           </Link>
                           <Link
-                            to={`/admin-dashboard/ordini/${ordineId}/anagrafica/${a.id}/edit`}
+                            to={`/employee-dashboard/ordini/${ordineId}/anagrafica/${a.id}/edit`}
                             className="text-yellow-500 hover:text-yellow-600"
                             title="Modifica"
                           >
@@ -245,104 +246,3 @@ const AnagraficaPage = () => {
 };
 
 export default AnagraficaPage;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // 👉 Export PDF d'une seule anagrafica avec subtable
-// const handleExportPDF = async (a) => {
-//   try {
-//     const doc = new jsPDF();
-//     doc.setFontSize(14);
-//     doc.text("Scheda Anagrafica", 14, 15);
-
-//     // Tableau principal de l'anagrafica
-//     const mainRows = Object.entries(a).map(([key, value]) => [key, value || "-"]);
-//     autoTable(doc, {
-//       head: [["Campo", "Valore"]],
-//       body: mainRows,
-//       startY: 25,
-//       theme: "grid",
-//       headStyles: { fillColor: [34, 197, 94] },
-//       styles: { fontSize: 10 },
-//     });
-
-//     // Récupérer la subtable via l'API
-//     const res = await axios.get(
-//       `http://localhost:3000/api/ordini/${ordineId}/anagrafica/${a.id}/subtable`,
-//       { headers: { Authorization: `Bearer ${token}` } }
-//     );
-
-//     const subtable = Array.isArray(res.data) ? res.data : res.data.data || [];
-//     if (subtable.length > 0) {
-//       doc.addPage();
-//       doc.setFontSize(14);
-//       doc.text("Subtable", 14, 15);
-
-//       // Préparer les colonnes dynamiques
-//       const cols = Object.keys(subtable[0]);
-//       const rows = subtable.map(row => cols.map(c => row[c] || "-"));
-
-//       autoTable(doc, {
-//         head: [cols],
-//         body: rows,
-//         startY: 25,
-//         theme: "grid",
-//         headStyles: { fillColor: [34, 197, 94] },
-//         styles: { fontSize: 10 },
-//       });
-//     }
-
-//     doc.save(`Anagrafica_${a.id}.pdf`);
-//   } catch (err) {
-//     console.error("Errore generazione PDF:", err);
-//   }
-// };

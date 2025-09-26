@@ -151,6 +151,46 @@ export const getOrdineAnagrafica = async (req, res) => {
 
 
 
+
+// ------------------------------
+// 🔹 Récupérer tous les ordini assignés à un user spécifique
+// ------------------------------
+export const getOrdiniByUser = async (req, res) => {
+  try {
+    const { userId } = req.params; // l'ID de l'utilisateur
+
+    // Vérifie si l'utilisateur existe
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(404).json({ success: false, message: "Utilisateur non trouvé" });
+    }
+
+    // Récupère les ordini assignés à cet utilisateur
+    const ordini = await user.getAssignedOrdini({ // Sequelize magic method
+      include: [
+        {
+          model: User,
+          as: "assignedUsers",
+          through: { attributes: [] }, // ne pas inclure les colonnes de la table pivot
+        },
+      ],
+      order: [["created_at", "DESC"]],
+    });
+
+    res.json({ success: true, count: ordini.length, data: ordini });
+  } catch (err) {
+    console.error("Erreur getOrdiniByUser:", err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+};
+
+
+
+
+
+
+
+
 // ------------------------------
 // 🔹 Genera un PDF per l'Ordine
 // ------------------------------
@@ -246,4 +286,7 @@ export const stampaOrdine = async (req, res) => {
       .json({ success: false, error: "Impossibile generare il PDF" });
   }
 };
+
+
+
 

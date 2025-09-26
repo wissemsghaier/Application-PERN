@@ -16,11 +16,11 @@ const router = express.Router({ mergeParams: true }); // 🔹 important pour ré
 
 
 // Settori liés à un Albo
-router.post("/", verifyUser, adminOnly, createSettore);
-router.get("/", verifyUser, adminOnly, getSettoriByAlbo);
+router.post("/", verifyUser,  createSettore);
+router.get("/", verifyUser,  getSettoriByAlbo);
 
 // CRUD direct sur Settore
-router.put("/:id", verifyUser, adminOnly, updateSettore);
+router.put("/:id", verifyUser,  updateSettore);
 router.delete("/:id", verifyUser, adminOnly, deleteSettore);
 
 

@@ -16,9 +16,9 @@ const router = express.Router({ mergeParams: true }); // 🔹 important pour ré
 // ------------------------------
 // 🔹 Albo
 // ------------------------------
-router.post("/", verifyUser, adminOnly, createAlbo);
-router.get("/", verifyUser, adminOnly, getAlboByAnagrafica);
-router.put("/:id", verifyUser, adminOnly, updateAlbo);
+router.post("/", verifyUser,  createAlbo);
+router.get("/", verifyUser,  getAlboByAnagrafica);
+router.put("/:id", verifyUser,  updateAlbo);
 router.delete("/:id", verifyUser, adminOnly, deleteAlbo);
 
 // 🔹 Settori imbriqués sous chaque Albo

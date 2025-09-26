@@ -14,9 +14,9 @@ const router = express.Router({ mergeParams: true }); // 🔹 important pour ré
 // ------------------------------
 // 🔹 Abilitazioni
 // ------------------------------
-router.post("/", verifyUser, adminOnly,  createAbilitazione);
-router.get("/", verifyUser, adminOnly,  getAbilitazioniByAnagrafica);
-router.put("/:id", verifyUser, adminOnly,  updateAbilitazione);
+router.post("/", verifyUser,  createAbilitazione);
+router.get("/", verifyUser,  getAbilitazioniByAnagrafica);
+router.put("/:id", verifyUser,  updateAbilitazione);
 router.delete("/:id", verifyUser, adminOnly,  deleteAbilitazione);
 
 
